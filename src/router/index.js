@@ -5,6 +5,7 @@ import Add from '../views/Add'
 import Index from '../views/Index'
 import BookUpdate from '../views/BookUpdate'
 import detail from "../views/detail";
+import seller from "../views/seller";
 Vue.use(VueRouter)
 
 const routes = [
@@ -24,6 +25,11 @@ const routes = [
         path:"/Add",
         name:"添加商品",
         component:Add
+      },
+      {
+        path:"/seller",
+        name:"网红列表",
+        component:seller
       }
     ]
   },

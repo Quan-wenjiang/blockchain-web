@@ -5,12 +5,8 @@
             <el-form-item label="商品名称" prop="name" >
                 <el-input v-model="ruleForm.name"></el-input>
             </el-form-item>
-            <el-form-item label="价格" prop="price" >
-                <el-input v-model="ruleForm.price"></el-input>
-            </el-form-item>
-            <el-form-item label="代言人" prop="author">
-                <el-input v-model="ruleForm.author"></el-input>
-            </el-form-item>
+
+
             <el-form-item label="评价人数" prop="quantity">
                 <el-input v-model="ruleForm.quantity"></el-input>
             </el-form-item>
@@ -25,7 +21,22 @@
                         list-type="picture">
 
                 </el-upload>
+
+
             </el-form-item>
+          <el-form-item label="代言网红" >
+            <el-upload
+                class="upload-demo"
+                action="https://jsonplaceholder.typicode.com/posts/"
+                :on-preview="handlePreview"
+                :on-remove="handleRemove"
+                :file-list="ruleForm.fileList2"
+                list-type="picture">
+
+            </el-upload>
+
+
+          </el-form-item>
             <el-form-item >
                 <div>
                                     <span class="demonstration">商品评分
@@ -34,17 +45,12 @@
                                             show-text>
                                         </el-rate>
                                     </span>
-                    <span class="demonstration">网红评分
-                                    <el-rate
-                                            v-model="ruleForm.score2"
-                                            show-text>
-                                        </el-rate>
-                                    </span>
+
                 </div>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="submitForm('ruleForm')">返回</el-button>
-                <el-button @click="resetForm('ruleForm')">评价</el-button>
+<!--                <el-button @click="resetForm('ruleForm')">评价</el-button>-->
                 <!--            <el-button @click="test('ruleForm')">test</el-button>-->
             </el-form-item>
 
@@ -58,15 +64,7 @@
         data() {
             return {
 
-                ruleForm: {
-                    name: '书包1',
-                    price:'￥199',
-                    author: '网红1',
-                    quantity:'58',
-                    score1:'1',
-                    score2:'2',
-                    fileList: [{name: '书包1', url: 'http://localhost:8181/assets/uploadFile/bag1.jpg'}]
-                },
+                ruleForm: {"name":"bag1","quantity":"200","score1":"4","fileList":[{"name":"bag1","url":"http://localhost:8181/assets/images/bag1.jpg"}],"fileList2":[{"name":"seller1","url":"http://localhost:8181/assets/images/seller1.jpg"}]},
                 rules: {
 
                 }
@@ -76,7 +74,7 @@
             processFormData (val) {
                 let s = JSON.parse(JSON.stringify(val))
                 this.ruleForm.name = s.name
-                this.ruleForm.author = s.pwd
+                this.ruleForm.seller = s.pwd
             },
             handleRemove(file, fileList) {
                 console.log(file, fileList);
@@ -97,6 +95,17 @@
             resetForm(formName) {
                 this.$refs[formName].resetFields();
             }
+        },
+        created() {
+          const _this = this
+          this.$route.query.id
+          axios.get('http://localhost:8181/getgood/'+this.$route.query.id).then(function(resp){
+            console.log(resp)
+            _this.ruleForm=resp.data
+            //     _this.tableData = resp.data.content
+            //     _this.pageSize = resp.data.size
+            //     _this.total = resp.data.totalElements
+          })
         }
     }
 </script>

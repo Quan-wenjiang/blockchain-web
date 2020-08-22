@@ -1,12 +1,12 @@
 <template>
     <el-form style="width: 60%" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 
-        <el-form-item label="商品名称" prop="name">
-            <el-input v-model="ruleForm.name"></el-input>
+        <el-form-item label="商品名称" prop="SellerID">
+            <el-input v-model="ruleForm.SellerID"></el-input>
         </el-form-item>
 
-        <el-form-item label="代言人" prop="author">
-            <el-input v-model="ruleForm.author"></el-input>
+        <el-form-item label="代言人" prop="SellerName">
+            <el-input v-model="ruleForm.SellerName"></el-input>
         </el-form-item>
         <el-form-item label="商品图片" >
             <el-upload
@@ -39,8 +39,7 @@
 
                 ],
                 ruleForm: {
-                    name: '',
-                    author: ''
+
                 },
                 rules: {
                     name: [
@@ -76,6 +75,7 @@
                 const _this = this
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
+                        console.log(_this.ruleForm)
                         const fd = new FormData()
                         fd.append('filename', this.file)
                         const config = { headers: { 'Content-Type': 'multipart/form-data' }}
@@ -83,12 +83,12 @@
                         ).then(response => {
                             this.$message.success(response.retCode)
                         }),
-                        axios.post('http://localhost:8181/book/save',this.ruleForm).then(function(resp){
+                        axios.post('http://localhost:8181/add',this.ruleForm).then(function(resp){
                             if(resp.data == 'success'){
                                 _this.$alert('《'+_this.ruleForm.name+'》添加成功！', '消息', {
                                     confirmButtonText: '确定',
                                     callback: action => {
-                                        _this.$router.push('/BookManage')
+                                          _this.$router.push('/ProductManage')
                                     }
                                 })
                             }

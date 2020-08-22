@@ -16,8 +16,7 @@
                         <a class="imgbox" href="#">
                         </a>
                         <div class="item-extra">
-                                <span class="fl"><b class="c-orange">￥199</b>
-                                </span>
+
                                 <div>
                                     <span class="demonstration">商品评分
                                     <el-rate
@@ -28,15 +27,7 @@
                                             score-template="{value}">
                                         </el-rate>
                                     </span>
-                                    <span class="demonstration">网红评分
-                                    <el-rate
-                                            v-model="product.score2"
-                                            disabled
-                                            show-score
-                                            text-color="#ff9900"
-                                            score-template="{value}">
-                                        </el-rate>
-                                    </span>
+
                                 </div>
                             <a class="fr" href="">
                                 <span class="star-out">
@@ -74,7 +65,12 @@
             handleclick(id){
                 console.log(id)
                 const _this = this
-                _this.$router.push("detail")
+                _this.$router.push({
+                  path: "/detail",
+                  query:{
+                    id:id
+                  }
+                })
             },
 
             page(currentPage){
@@ -116,13 +112,14 @@
         },
 
         created() {
-            // const _this = this
-            // axios.get('http://localhost:8181/book/findAll/0/6').then(function(resp){
-            //     console.log(resp)
+            const _this = this
+            axios.get('http://localhost:8181/allgoods').then(function(resp){
+                console.log(resp)
+                _this.list=resp.data
             //     _this.tableData = resp.data.content
             //     _this.pageSize = resp.data.size
             //     _this.total = resp.data.totalElements
-            // })
+            })
         }
     }
 </script>
